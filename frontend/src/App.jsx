@@ -17,6 +17,80 @@ import {
   CheckCircle2,
   AlertOctagon
 } from 'lucide-react';
+import { runClientDiagnosis } from './engine/physics';
+
+const LOCAL_PRESET_CASES = {
+  CASE_P204: {
+    pump_id: 'P-204',
+    suction_pressure_bar: 0.44,
+    discharge_pressure_bar: 7.8,
+    flow_m3_h: 118.0,
+    fluid_temp_celsius: 45.0,
+    pump_speed_rpm: 2950.0,
+    electrical_power_kw: 28.5,
+    bearing_temp_de_celsius: 52.0,
+    bearing_temp_nde_celsius: 48.0,
+    impeller_vanes: 5,
+    npshr_m: 4.2,
+    protocol_source: 'MODBUS_TCP'
+  },
+  CASE_25_SUCTION_RESTRICTION: {
+    pump_id: 'P-204',
+    suction_pressure_bar: 0.32,
+    discharge_pressure_bar: 7.2,
+    flow_m3_h: 92.0,
+    fluid_temp_celsius: 42.0,
+    pump_speed_rpm: 2950.0,
+    electrical_power_kw: 24.1,
+    bearing_temp_de_celsius: 55.0,
+    bearing_temp_nde_celsius: 51.0,
+    impeller_vanes: 5,
+    npshr_m: 4.2,
+    protocol_source: 'MODBUS_TCP'
+  },
+  CASE_17_MISALIGNMENT: {
+    pump_id: 'P-204',
+    suction_pressure_bar: 1.50,
+    discharge_pressure_bar: 8.5,
+    flow_m3_h: 120.0,
+    fluid_temp_celsius: 38.0,
+    pump_speed_rpm: 2950.0,
+    electrical_power_kw: 29.8,
+    bearing_temp_de_celsius: 74.0,
+    bearing_temp_nde_celsius: 52.0,
+    impeller_vanes: 5,
+    npshr_m: 4.2,
+    protocol_source: 'OPC_UA'
+  },
+  CASE_09_IMPELLER_EROSION: {
+    pump_id: 'P-204',
+    suction_pressure_bar: 1.60,
+    discharge_pressure_bar: 6.2,
+    flow_m3_h: 104.0,
+    fluid_temp_celsius: 35.0,
+    pump_speed_rpm: 2950.0,
+    electrical_power_kw: 32.0,
+    bearing_temp_de_celsius: 50.0,
+    bearing_temp_nde_celsius: 47.0,
+    impeller_vanes: 5,
+    npshr_m: 4.2,
+    protocol_source: 'MQTT_SPARKPLUG_B'
+  },
+  CASE_29_HEALTHY_BASELINE: {
+    pump_id: 'P-204',
+    suction_pressure_bar: 1.80,
+    discharge_pressure_bar: 8.8,
+    flow_m3_h: 125.0,
+    fluid_temp_celsius: 30.0,
+    pump_speed_rpm: 2950.0,
+    electrical_power_kw: 27.2,
+    bearing_temp_de_celsius: 42.0,
+    bearing_temp_nde_celsius: 40.0,
+    impeller_vanes: 5,
+    npshr_m: 4.2,
+    protocol_source: 'MODBUS_TCP'
+  }
+};
 
 import RadialGauge from './components/RadialGauge';
 import VibrationSpectrum from './components/VibrationSpectrum';
@@ -90,9 +164,16 @@ export default function App() {
         if (data.calculated_metrics?.spectrum) {
           setSpectrumData(data.calculated_metrics.spectrum);
         }
+        return;
       }
+      throw new Error('API unavailable, falling back to client-side physics engine');
     } catch (err) {
-      console.error('Error fetching diagnosis:', err);
+      // Standalone / Cloudflare Pages client calculation fallback
+      const clientResult = runClientDiagnosis(currentTelemetry);
+      setDiagnosis(clientResult);
+      if (clientResult.calculated_metrics?.spectrum) {
+        setSpectrumData(clientResult.calculated_metrics.spectrum);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -128,10 +209,16 @@ export default function App() {
         if (data.telemetry) {
           setTelemetry(data.telemetry);
           setActiveProtocol(data.telemetry.protocol_source || 'MODBUS_TCP');
+          return;
         }
       }
+      throw new Error('API case load unavailable, using local case definition');
     } catch (e) {
-      console.error('Failed to load case:', e);
+      if (LOCAL_PRESET_CASES[caseId]) {
+        const localTelem = LOCAL_PRESET_CASES[caseId];
+        setTelemetry(localTelem);
+        setActiveProtocol(localTelem.protocol_source || 'MODBUS_TCP');
+      }
     }
   };
 
@@ -150,9 +237,13 @@ export default function App() {
       if (res.ok) {
         const updatedDiag = await res.json();
         setDiagnosis(updatedDiag);
+        return;
       }
+      throw new Error('API feedback unavailable');
     } catch (e) {
-      console.error('Failed to submit field measurement:', e);
+      // Client-side updated calculation
+      const updatedDiag = runClientDiagnosis(telemetry);
+      setDiagnosis(updatedDiag);
     }
   };
 
@@ -168,11 +259,53 @@ export default function App() {
         const wo = await res.json();
         setWorkOrderData(wo);
         setIsWorkOrderOpen(true);
+        return;
       }
+      throw new Error('API work order unavailable');
     } catch (e) {
-      console.error('Failed to generate work order:', e);
+      // Fallback local ISO 55000 work order
+      const clientDiag = diagnosis || runClientDiagnosis(telemetry);
+      const fallbackWo = {
+        work_order_id: `WO-${Date.now().toString().slice(-6)}`,
+        asset_id: telemetry.pump_id || 'P-204',
+        asset_tag: 'BOOSTER-FEED-01',
+        title: `Corrective Hydraulic Inspection: ${clientDiag.top_hypothesis?.name || 'Cavitation Mitigation'}`,
+        priority: 'EMERGENCY_HIGH',
+        failure_mode_diagnosed: clientDiag.top_hypothesis?.name || 'Active Cavitation',
+        failure_mechanism: clientDiag.top_hypothesis?.primary_mechanism || 'NPSHa deficit leading to vapor bubble collapse.',
+        scope_of_work: [
+          '1. Execute Lockout/Tagout (LOTO) isolation on motor feeder circuit breaker CB-204.',
+          '2. Depressurize and vent suction spool; isolate manual gate valve V-SUC-01.',
+          '3. Remove suction basket strainer ST-204; inspect mesh for scale, debris, or biofouling.',
+          '4. Perform borescope examination of 1st-stage impeller suction eye.',
+          '5. Reassemble with new spiral wound gaskets and record differential pressure.'
+        ],
+        required_parts_bom: [
+          { part_number: 'GSK-SPW-316-6', description: 'Spiral Wound Gasket 6" ANSI 300# 316SS/PTFE', quantity: 2, stock_status: 'IN_STOCK', location: 'Warehouse Bay 4-B' },
+          { part_number: 'STR-BKT-SS-100', description: 'Suction Basket Strainer Screen 100 Mesh 316SS', quantity: 1, stock_status: 'IN_STOCK', location: 'Warehouse Bay 2-A' },
+          { part_number: 'LUB-ISO-VG-46', description: 'Synthetic Turbine Bearing Oil ISO VG 46 (5L)', quantity: 1, stock_status: 'IN_STOCK', location: 'Lube Room C-1' }
+        ],
+        loto_isolation_protocol: {
+          loto_id: 'LOTO-P204-HYD-01',
+          equipment_name: 'Booster Pump P-204 & 37kW Drive',
+          osha_standard: 'OSHA 1910.147',
+          steps: [
+            { step_number: 1, action: 'Notify unit operators of Pump P-204 scheduled shutdown.' },
+            { step_number: 2, action: 'Open and lockout main 400V Motor Circuit Breaker CB-204 in MCC Room 2.' },
+            { step_number: 3, action: 'Close and chain Suction Isolation Valve V-SUC-01.' },
+            { step_number: 4, action: 'Close and chain Discharge Isolation Valve V-DIS-01.' },
+            { step_number: 5, action: 'Open Casing Drain Valve V-DRN-01 to bleed residual hydraulic pressure.' },
+            { step_number: 6, action: 'Perform Zero Energy Verification on local start pushbutton.' }
+          ]
+        },
+        safety_sign_off_status: 'PENDING_ENGINEER_APPROVAL',
+        created_at_iso: new Date().toISOString()
+      };
+      setWorkOrderData(fallbackWo);
+      setIsWorkOrderOpen(true);
     }
   };
+
 
   const metrics = diagnosis?.calculated_metrics;
   const topH = diagnosis?.top_hypothesis;

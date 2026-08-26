@@ -1,6 +1,8 @@
-# HydroGuard AI 🛡️⚡
-### Industrial Hydraulic Pump Predictive Maintenance, Diagnostic & Safety Orchestration Platform
+# HydroGuard AI — Industrial Hydraulic Pump Diagnostic Workstation
 
+> **Live Production URL:** [https://hydroguard-ai.pages.dev](https://hydroguard-ai.pages.dev)
+
+[![Live Cloudflare Pages](https://img.shields.io/badge/Cloudflare_Pages-hydroguard--ai.pages.dev-orange)](https://hydroguard-ai.pages.dev)
 [![Build & Test Status](https://img.shields.io/badge/pytest-100%25%20pass-emerald)](https://github.com/hsinidev/HydroGuard-AI)
 [![Evaluation Benchmarks](https://img.shields.io/badge/benchmarks-32%20cases%20%7C%20100%25%20accuracy-cyan)](https://github.com/hsinidev/HydroGuard-AI)
 [![ISO Alignment](https://img.shields.io/badge/ISO-10816--3%20%7C%2055000%20Aligned-blue)](https://github.com/hsinidev/HydroGuard-AI)
