@@ -1,0 +1,22 @@
+{
+  "case_id": "CASE_32_HEALTHY_BASELINE",
+  "category": "HEALTHY_BASELINE",
+  "pump_id": "P-104",
+  "description": "Nominal pump operating at Best Efficiency Point #4",
+  "expected_top_hypothesis": "H_HEALTHY_OPERATION",
+  "expected_npsh_status": "HEALTHY_MARGIN",
+  "telemetry": {
+    "pump_id": "P-104",
+    "suction_pressure_bar": 2.0,
+    "discharge_pressure_bar": 8.3,
+    "flow_m3_h": 128.0,
+    "fluid_temp_celsius": 22.0,
+    "pump_speed_rpm": 2950.0,
+    "electrical_power_kw": 30.0,
+    "bearing_temp_de_celsius": 48.0,
+    "bearing_temp_nde_celsius": 43.0,
+    "impeller_vanes": 5,
+    "npshr_m": 4.0,
+    "protocol_source": "MODBUS_TCP"
+  }
+}

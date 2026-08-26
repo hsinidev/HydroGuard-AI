@@ -1,0 +1,22 @@
+{
+  "case_id": "CASE_16_IMPELLER_EROSION",
+  "category": "HYDRAULIC_DEGRADATION",
+  "pump_id": "P-301",
+  "description": "Leading edge vane erosion & head curve deterioration #8",
+  "expected_top_hypothesis": "H_IMPELLER_EROSION",
+  "expected_npsh_status": "HEALTHY_MARGIN",
+  "telemetry": {
+    "pump_id": "P-301",
+    "suction_pressure_bar": 1.6,
+    "discharge_pressure_bar": 6.1,
+    "flow_m3_h": 125.0,
+    "fluid_temp_celsius": 22.0,
+    "pump_speed_rpm": 2950.0,
+    "electrical_power_kw": 42.4,
+    "bearing_temp_de_celsius": 48.0,
+    "bearing_temp_nde_celsius": 45.0,
+    "impeller_vanes": 5,
+    "npshr_m": 4.0,
+    "protocol_source": "OPC_UA"
+  }
+}

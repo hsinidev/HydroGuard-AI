@@ -1,0 +1,22 @@
+{
+  "case_id": "CASE_27_SUCTION_RESTRICTION",
+  "category": "SUCTION_RESTRICTION",
+  "pump_id": "P-604",
+  "description": "Basket strainer blinding and suction valve throttling #3",
+  "expected_top_hypothesis": "H_SUCTION_RESTRICTION",
+  "expected_npsh_status": "CRITICAL_CAVITATION_RISK",
+  "telemetry": {
+    "pump_id": "P-604",
+    "suction_pressure_bar": 0.31000000000000005,
+    "discharge_pressure_bar": 6.1,
+    "flow_m3_h": 70.0,
+    "fluid_temp_celsius": 20.0,
+    "pump_speed_rpm": 2950.0,
+    "electrical_power_kw": 22.0,
+    "bearing_temp_de_celsius": 45.0,
+    "bearing_temp_nde_celsius": 42.0,
+    "impeller_vanes": 5,
+    "npshr_m": 3.8,
+    "protocol_source": "OPC_UA"
+  }
+}

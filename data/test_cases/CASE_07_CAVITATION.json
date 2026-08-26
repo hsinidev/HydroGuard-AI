@@ -1,0 +1,22 @@
+{
+  "case_id": "CASE_07_CAVITATION",
+  "category": "CAVITATION_AND_SUCTION",
+  "pump_id": "P-204",
+  "description": "Suction head deficit and vapor bubble cavitation scenario #7",
+  "expected_top_hypothesis": "H_CAVITATION",
+  "expected_npsh_status": "CRITICAL_CAVITATION_RISK",
+  "telemetry": {
+    "pump_id": "P-204",
+    "suction_pressure_bar": 0.46,
+    "discharge_pressure_bar": 8.2,
+    "flow_m3_h": 118.0,
+    "fluid_temp_celsius": 53.0,
+    "pump_speed_rpm": 2950.0,
+    "electrical_power_kw": 28.5,
+    "bearing_temp_de_celsius": 49.5,
+    "bearing_temp_nde_celsius": 45.8,
+    "impeller_vanes": 5,
+    "npshr_m": 4.2,
+    "protocol_source": "MODBUS_TCP"
+  }
+}

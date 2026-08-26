@@ -1,0 +1,28 @@
+steps:
+  # Build Docker Image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/hydroguard-ai:latest', '.']
+
+  # Push Image to Google Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/hydroguard-ai:latest']
+
+  # Deploy to Google Cloud Run in us-central1
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'hydroguard-ai'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/hydroguard-ai:latest'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '8000'
+
+images:
+  - 'gcr.io/$PROJECT_ID/hydroguard-ai:latest'
