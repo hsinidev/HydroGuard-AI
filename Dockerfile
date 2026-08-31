@@ -15,7 +15,7 @@ WORKDIR /app
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PORT=8000 \
+    PORT=8080 \
     GEMINI_MODEL_NAME=gemini-3.5-flash
 
 # Install system dependencies
@@ -36,7 +36,12 @@ COPY IMPLEMENTATION_DECISIONS.md .
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 
 # Expose port
-EXPOSE 8000
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:8080/api/health || exit 1
 
 # Run FastAPI backend with Uvicorn
-CMD ["uvicorn", "backend.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "backend.api.main:app", "--host", "0.0.0.0", "--port", "8080"]
+

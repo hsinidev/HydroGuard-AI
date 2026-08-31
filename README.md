@@ -1,14 +1,14 @@
-# HydroGuard AI — Industrial Hydraulic Pump Diagnostic Workstation
+# 🌊 HydroGuard AI — Industrial Hydraulic Pump Diagnostic Workstation
 
-> **Live Production URL:** [https://hydroguard-ai.pages.dev](https://hydroguard-ai.pages.dev)
+[![Live Demo: Google Cloud Run](https://img.shields.io/badge/🚀_LIVE_DEMO-Google_Cloud_Run-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)](https://hydroguard-ai-823541166907.us-central1.run.app)
+[![Build & Test Status](https://img.shields.io/badge/pytest-100%25%20pass-emerald?style=for-the-badge&logo=pytest&logoColor=white)](https://github.com/hsinidev/HydroGuard-AI)
+[![Evaluation Benchmarks](https://img.shields.io/badge/benchmarks-32%20cases%20%7C%20100%25%20accuracy-cyan?style=for-the-badge)](https://github.com/hsinidev/HydroGuard-AI)
+[![ISO Alignment](https://img.shields.io/badge/Standards-ISO_10816--3_%7C_ISO_55000-blue?style=for-the-badge)](https://github.com/hsinidev/HydroGuard-AI)
+[![Safety Boundary](https://img.shields.io/badge/Safety-Read--Only%20Decision--Support-rose?style=for-the-badge)](https://github.com/hsinidev/HydroGuard-AI)
 
-[![Live Cloudflare Pages](https://img.shields.io/badge/Cloudflare_Pages-hydroguard--ai.pages.dev-orange)](https://hydroguard-ai.pages.dev)
-[![Build & Test Status](https://img.shields.io/badge/pytest-100%25%20pass-emerald)](https://github.com/hsinidev/HydroGuard-AI)
-[![Evaluation Benchmarks](https://img.shields.io/badge/benchmarks-32%20cases%20%7C%20100%25%20accuracy-cyan)](https://github.com/hsinidev/HydroGuard-AI)
-[![ISO Alignment](https://img.shields.io/badge/ISO-10816--3%20%7C%2055000%20Aligned-blue)](https://github.com/hsinidev/HydroGuard-AI)
-[![Safety Boundary](https://img.shields.io/badge/Safety-Read--Only%20Decision--Support-rose)](https://github.com/hsinidev/HydroGuard-AI)
-
+> 🌐 **Live Cloud Run Workstation:** **[https://hydroguard-ai-823541166907.us-central1.run.app](https://hydroguard-ai-823541166907.us-central1.run.app)**  
 > **HydroGuard AI** combines real-time industrial telemetry (Modbus TCP, OPC UA, MQTT Sparkplug B), pure deterministic hydraulic equations, frequency-domain FFT vibration signal processing (1–5 kHz cavitation band detection), and dynamic Bayesian multi-hypothesis reasoning to protect high-criticality industrial centrifugal pumps from cavitation, impeller erosion, and catastrophic mechanical breakdown.
+
 
 ---
 
