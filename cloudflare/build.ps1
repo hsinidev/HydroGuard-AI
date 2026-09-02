@@ -26,7 +26,6 @@ New-Item -ItemType Directory -Force -Path $DistDir | Out-Null
 
 Copy-Item -Recurse -Force (Join-Path $FrontendDir "dist\*") $DistDir
 Copy-Item -Force (Join-Path $ScriptDir "_headers") $DistDir
-Copy-Item -Force (Join-Path $ScriptDir "_routes.json") $DistDir
 
 Write-Host "SUCCESS: Cloudflare Pages distribution bundle is ready!" -ForegroundColor Green
 Write-Host "Target Directory: $DistDir" -ForegroundColor Green

@@ -11,5 +11,5 @@ PORTFOLIO_URL = "https://hsini.dev"
 CONTACT_EMAIL = "contact@hsini.dev"
 
 [[routes]]
-pattern = "hydroguard-ai.pages.dev"
+pattern = "hydroguardai.pages.dev"
 custom_domain = true

@@ -15,7 +15,7 @@ npx wrangler pages deploy dist --project-name hydroguard-ai --commit-dirty=true
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "`nDEPLOYMENT SUCCESS: HydroGuard AI is live on Cloudflare Pages!" -ForegroundColor Green
-    Write-Host "Live URL: https://hydroguard-ai.pages.dev" -ForegroundColor Cyan
+    Write-Host "Live URL: https://hydroguardai.pages.dev/" -ForegroundColor Cyan
 } else {
     Write-Host "`nNOTE: If not logged in, please run 'npx wrangler login' or export CLOUDFLARE_API_TOKEN." -ForegroundColor Yellow
 }

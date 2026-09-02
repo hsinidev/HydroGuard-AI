@@ -21,6 +21,5 @@ mkdir -p "$DIST_DIR"
 
 cp -r "$FRONTEND_DIR/dist/"* "$DIST_DIR/"
 cp "$SCRIPT_DIR/_headers" "$DIST_DIR/"
-cp "$SCRIPT_DIR/_routes.json" "$DIST_DIR/"
 
 echo "SUCCESS: Cloudflare Pages distribution bundle assembled successfully in $DIST_DIR"

@@ -2,7 +2,7 @@
 
 This directory contains the production-ready configuration, SPA routing manifests, security headers, edge serverless functions, and automated build scripts to deploy **HydroGuard AI** to **Cloudflare Pages**.
 
-> **Live Production URL:** [https://hydroguard-ai.pages.dev](https://hydroguard-ai.pages.dev)  
+> **Live Production URL:** [https://hydroguardai.pages.dev/](https://hydroguardai.pages.dev/)  
 > **GitHub Repository:** [https://github.com/hsinidev/HydroGuard-AI](https://github.com/hsinidev/HydroGuard-AI)  
 > **Lead Architect:** **Mohamed Hsini** ([https://hsini.dev](https://hsini.dev) | [contact@hsini.dev](mailto:contact@hsini.dev))
 

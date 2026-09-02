@@ -15,4 +15,4 @@ npx wrangler pages deploy dist --project-name hydroguard-ai --commit-dirty=true
 
 echo ""
 echo "DEPLOYMENT SUCCESS: HydroGuard AI is live on Cloudflare Pages!"
-echo "Live URL: https://hydroguard-ai.pages.dev"
+echo "Live URL: https://hydroguardai.pages.dev/"
